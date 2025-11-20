@@ -1,0 +1,67 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+
+# Env
+.env
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Django
+*.log
+*.pot
+*.py[cod]
+db.sqlite3
+media/
+staticfiles/
+static/
+local_settings.py
+settings_local.py
+
+# VSCode
+.vscode/
+
+# macOS
+.DS_Store
+
+# IDEs
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Pipenv
+Pipfile.lock
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.tox/
+.pytest_cache/
+
+# Migrations (opcional, se for gerar)
+**/migrations/*.pyc
+**/migrations/__pycache__/
+**/migrations/*.pyo
+
+# Backup
+*.bak
+*.swp
+
+# Node (caso use para gerenciar front estático)
+node_modules/
+
+# Docker
+*.pid
