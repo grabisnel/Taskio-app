@@ -2,12 +2,13 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework import status 
 
-@permission_classes([AllowAny])
 
+
+@permission_classes([AllowAny])
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
@@ -32,3 +33,16 @@ class LogoutView(APIView):
     def get(self, request):
         logout(request)
         return Response({"detail": "Logged out successfully."}, status=200)
+    
+class UserDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        user_data = {
+            "username": user.username,
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+        }
+        return Response(user_data, status=status.HTTP_200_OK)
