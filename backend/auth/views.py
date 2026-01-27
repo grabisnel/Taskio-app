@@ -33,6 +33,7 @@ class LogoutView(APIView):
         logout(request)
         return Response({"detail": "Logged out successfully."}, status=200)
     
+    
 class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -45,6 +46,7 @@ class UserDetailView(APIView):
             "last_name": user.last_name,
         }
         return Response(user_data, status=status.HTTP_200_OK)
+    
     
 class UserRegisterView(APIView):
     permission_classes = [AllowAny]
@@ -67,6 +69,7 @@ class UserRegisterView(APIView):
         
         try:
             password_validation.validate_password(password)
+            
         except password_validation.ValidationError as e:
             return Response({"detail": e.messages}, status=status.HTTP_400_BAD_REQUEST)
 
