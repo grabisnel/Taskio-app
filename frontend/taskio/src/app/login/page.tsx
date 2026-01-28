@@ -4,8 +4,6 @@ import { Box, Card, useTheme } from "@mui/material"
 
 export const LoginFormView = () => {
 
-    console.log('Passou')
-
     const theme = useTheme()
 
     return (
