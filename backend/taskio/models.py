@@ -4,23 +4,32 @@ from django.conf import settings
 # Create your models here.
 
 class Task(models.Model):
-    
-    name = models.CharField(max_length=150, blank=False, null=False)
-    completed = models.BooleanField(default=False)
-    description = models.CharField(max_length=150, null=True)
-    created_date = models.DateTimeField(auto_now=True)
-    completed_date = models.DateTimeField(null=True)
+
+    class Status(models.TextChoices):
+        PENDING = 'pending', 'Pending'
+        IN_PROGRESS = 'in_progress', 'In Progress'
+        COMPLETED = 'completed', 'Completed'
+
+    title = models.CharField(max_length=150, blank=False, null=False)
+    description = models.CharField(max_length=150, null=True, blank=True)
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.PENDING,
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='owner'
+        related_name='tasks'
     )
-    
-    class Meta: 
+
+    class Meta:
         db_table = 'task'
-        
-    def _str_(self):
-        return self.name
+
+    def __str__(self):
+        return self.title
         
     
     
