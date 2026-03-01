@@ -1,9 +1,12 @@
 from django.contrib.auth.models import User
-from django.contrib.auth import password_validation
+from django.contrib.auth import get_user_model, password_validation
+from django.db import IntegrityError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
+
+User = get_user_model()
 
 class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]
@@ -35,16 +38,25 @@ class UserRegisterView(APIView):
         if not first_name or not last_name:
             return Response({"detail": "First name and last name are required."}, status=status.HTTP_400_BAD_REQUEST)
 
-        if User.objects.filter(username=username).exists():
-            return Response({"detail": "Username already taken."}, status=status.HTTP_400_BAD_REQUEST)
-        
         try:
             password_validation.validate_password(password)
-            
+
         except password_validation.ValidationError as e:
             return Response({"detail": e.messages}, status=status.HTTP_400_BAD_REQUEST)
 
-        user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
-        user.save()
+        try:
+            user = User.objects.create_user(
+                username=username,
+                password=password,
+                email=email,
+                first_name=first_name,
+                last_name=last_name,
+            )
+            user.save()
+        except IntegrityError:
+            return Response(
+                {"detail": "Unable to register with provided credentials."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         return Response({"detail": "User registered successfully."}, status=status.HTTP_201_CREATED)

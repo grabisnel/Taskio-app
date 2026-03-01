@@ -1,23 +1,27 @@
-from django.shortcuts import render
 from rest_framework import generics
-from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
+from taskio.permissions import isTaskOwner
 from taskio.serializers import TasksSerializer
 from taskio.models import Task
-from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 class TaskListCreateView(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = Task.objects.all()
     serializer_class = TasksSerializer
-    lookup_field = Task.id
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
 
+    def get_queryset(self):
+        return Task.objects.filter(owner=self.request.user)
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 class TaskRetrieveUpdateView(generics.RetrieveUpdateAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = Task.objects.select_related('user')
+    permission_classes = [IsAuthenticated, isTaskOwner]
     serializer_class = TasksSerializer
+
+    def get_queryset(self):
+        return Task.objects.select_related('owner').filter(owner=self.request.user)
     
     
     
