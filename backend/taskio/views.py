@@ -1,6 +1,5 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from taskio.permissions import isTaskOwner
 from taskio.serializers import TasksSerializer
 from taskio.models import Task
 # Create your views here.
@@ -17,7 +16,7 @@ class TaskListCreateView(generics.ListCreateAPIView):
         serializer.save(owner=self.request.user)
 
 class TaskRetrieveUpdateView(generics.RetrieveUpdateAPIView):
-    permission_classes = [IsAuthenticated, isTaskOwner]
+    permission_classes = [IsAuthenticated]
     serializer_class = TasksSerializer
 
     def get_queryset(self):

@@ -17,13 +17,11 @@ class LoginView(ObtainAuthToken):
             return Response({"detail": "Username and password required"}, status=status.HTTP_400_BAD_REQUEST)
 
         user = authenticate(request, username=username, password=password)
-        print(user)
+        
         if user is None:
             return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)        
 
         response = super().post(request)
-        
-        print(response.data)
         
         return Response({"detail": "Logged in successfully", "token": response.data.get("token")}, status=status.HTTP_200_OK)
 

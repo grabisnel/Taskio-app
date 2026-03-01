@@ -11,10 +11,10 @@ from django.utils.translation import gettext_lazy as _
 class User(AbstractUser):
     
     USERNAME_FIELD = 'email' 
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name'] 
+    REQUIRED_FIELDS = ['username','first_name', 'last_name'] 
     
     email = models.EmailField(
-        _("email address"),
+        _("email"),
         unique=True,
         blank=False,
         null=False
