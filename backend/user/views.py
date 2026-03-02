@@ -83,6 +83,12 @@ class UserProfileUpdateView(APIView):
     permission_classes = [IsAuthenticated]
 
     def patch(self, request):
+        if 'email' in request.data:
+            return Response(
+                {"detail": "Email cannot be updated from this endpoint."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         user = request.user
         serializer = UserProfileUpdateSerializer(user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
