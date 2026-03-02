@@ -61,13 +61,4 @@ class UserProfileUpdateViewTest(TestCase):
         response = client.patch('/user/profile/', {'first_name': 'Jane'})
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_put_update_profile(self):
-        response = self.client.put('/user/profile/', {
-            'first_name': 'Jane',
-            'last_name': 'Smith',
-            'username': 'janesmith',
-        })
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['first_name'], 'Jane')
-        self.assertEqual(response.data['last_name'], 'Smith')
-        self.assertEqual(response.data['username'], 'janesmith')
+
