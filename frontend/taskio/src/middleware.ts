@@ -5,8 +5,6 @@ export async function middleware(request: NextRequest) {
 
     const sessionId = request.cookies.get('sessionid')?.value;
 
-    console.log('Roda bosta')
-
     if (!sessionId) {
         const loginUrl = new URL('/login', request.url);
         loginUrl.searchParams.set('redirectedFrom', pathname);
@@ -17,5 +15,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/tasks'],
+    matcher: ['/tasks/:path*'],
 };
