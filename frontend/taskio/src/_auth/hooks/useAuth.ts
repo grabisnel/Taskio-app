@@ -1,30 +1,61 @@
 import { AppDispatch, RootState } from "@/stores/app-store";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser, setUser, startLoading } from "../auth-slice";
-import { authApi } from "../services/auth-api";
+import {
+	getCurrentUser,
+	login as loginService,
+	logout as logoutService,
+} from "../services/auth.service";
+import { loadSavedAuthToken } from "../services/auth-token.storage";
 
 
 export function useAuth() {
 	const dispatch = useDispatch<AppDispatch>();
 	const { user, loading, isAuthenticated } = useSelector((state: RootState) => state.auth);
 
-	async function login(username: string, password: string) {
+	async function login(email: string, password: string) {
 
 		dispatch(startLoading());
 
-		await authApi.post("login/", { username, password });
-		const { data } = await authApi.get("user/");
+		try {
+			await loginService({ email, password });
+			const currentUser = await getCurrentUser();
 
-		dispatch(setUser(data));
+			dispatch(setUser(currentUser));
+		} catch (error) {
+			dispatch(clearUser());
+			throw error;
+		}
 	}
 
 	async function logout() {
 
-		await authApi.get("logout/");
-
-		dispatch(clearUser());
+		try {
+			await logoutService();
+		} finally {
+			dispatch(clearUser());
+		}
 
 	}
 
-	return { user, loading, isAuthenticated, login, logout };
+	async function getUserSession() {
+		const storedToken = loadSavedAuthToken();
+
+		if (!storedToken) {
+			return;
+		}
+
+		dispatch(startLoading());
+
+		try {
+			const currentUser = await getCurrentUser();
+			dispatch(setUser(currentUser));
+		} catch {
+			dispatch(clearUser());
+		}
+
+
+	}
+
+	return { user, loading, isAuthenticated, login, logout, getUserSession };
 }
