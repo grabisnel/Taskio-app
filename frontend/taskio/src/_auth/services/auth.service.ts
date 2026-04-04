@@ -7,23 +7,16 @@ import {
 } from "../types/auth-service.types"
 import { authApi, userApi } from "@/lib/http/api-clients"
 import { mapUserResponseToAuthUser } from "../auth-mapper"
-import { clearSavedAuthToken, saveAuthToken } from "./auth-token.storage"
 
 
 export async function login(payload: LoginPayload): Promise<LoginResponse> {
-
-
     const { data } = await authApi.post<LoginResponse>("login/", payload)
-
-    saveAuthToken(data.token)
-
     return data
 }
 
 export async function logout() {
     try {
         await authApi.post("logout/")
-        clearSavedAuthToken()
     }
     catch (error) {
         return Promise.reject(error)
