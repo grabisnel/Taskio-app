@@ -11,7 +11,7 @@ from rest_framework.exceptions import ValidationError
 User = get_user_model()
 
 class UserDetailView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         user = request.user
