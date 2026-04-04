@@ -13,12 +13,12 @@ export function useAuth() {
 	const dispatch = useDispatch<AppDispatch>();
 	const { user, loading, isAuthenticated } = useSelector((state: RootState) => state.auth);
 
-	async function login(email: string, password: string) {
+	async function login(username: string, password: string) {
 
 		dispatch(startLoading());
 
 		try {
-			await loginService({ email, password });
+			await loginService({ username, password });
 			const currentUser = await getCurrentUser();
 
 			dispatch(setUser(currentUser));

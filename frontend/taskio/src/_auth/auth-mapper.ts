@@ -1,7 +1,9 @@
+'use server'
+
 import { BackendUserResponse } from "./types/auth-service.types";
 import { User } from "./types/auth-slice.types";
 
-export function mapUserResponseToAuthUser(data: BackendUserResponse): User {
+export async function mapUserResponseToAuthUser(data: BackendUserResponse): Promise<User> {
     return {
         username: data.username ?? "",
         email: data.email ?? "",
