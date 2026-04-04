@@ -6,7 +6,6 @@ import {
 	login as loginService,
 	logout as logoutService,
 } from "../services/auth.service";
-import { loadSavedAuthToken } from "../services/auth-token.storage";
 
 
 export function useAuth() {
@@ -39,12 +38,6 @@ export function useAuth() {
 	}
 
 	async function getUserSession() {
-		const storedToken = loadSavedAuthToken();
-
-		if (!storedToken) {
-			return;
-		}
-
 		dispatch(startLoading());
 
 		try {
@@ -53,7 +46,6 @@ export function useAuth() {
 		} catch {
 			dispatch(clearUser());
 		}
-
 
 	}
 
