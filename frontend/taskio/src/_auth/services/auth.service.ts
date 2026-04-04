@@ -1,23 +1,19 @@
+
 import { User } from "../types/auth-slice.types"
 import {
     BackendUserResponse,
     LoginPayload,
-    LoginRequestPayload,
     LoginResponse,
 } from "../types/auth-service.types"
-import { authApi, userApi } from "./auth-api.service"
+import { authApi, userApi } from "@/lib/http/api-clients"
 import { mapUserResponseToAuthUser } from "../auth-mapper"
 import { clearSavedAuthToken, saveAuthToken } from "./auth-token.storage"
 
 
 export async function login(payload: LoginPayload): Promise<LoginResponse> {
 
-    const requestPayload: LoginRequestPayload = {
-        username: payload.email,
-        password: payload.password,
-    }
 
-    const { data } = await authApi.post<LoginResponse>("login/", requestPayload)
+    const { data } = await authApi.post<LoginResponse>("login/", payload)
 
     saveAuthToken(data.token)
 
@@ -37,5 +33,5 @@ export async function getCurrentUser(): Promise<User> {
 
     const { data } = await userApi.get<BackendUserResponse>("info/")
 
-    return mapUserResponseToAuthUser(data)
+    return  await mapUserResponseToAuthUser(data)
 }
