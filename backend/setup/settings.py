@@ -132,8 +132,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_TOKEN_COOKIE_NAME = os.environ["AUTH_TOKEN_COOKIE_NAME"]
+AUTH_TOKEN_COOKIE_SECURE = os.environ["AUTH_TOKEN_COOKIE_SECURE"].lower() == "true"
+AUTH_TOKEN_COOKIE_SAMESITE = os.environ["AUTH_TOKEN_COOKIE_SAMESITE"]
+AUTH_TOKEN_COOKIE_MAX_AGE = int(os.environ["AUTH_TOKEN_COOKIE_MAX_AGE"])
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'auth.authentication.CookieTokenAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': (
