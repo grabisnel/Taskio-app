@@ -17,24 +17,24 @@ export const LoginForm = () => {
 
     const { register, handleSubmit, formState: { isSubmitting } } = useForm<LoginFormValues>({
         defaultValues: {
-            email: "",
+            username: "",
             password: "",
         }
     })
 
     async function onSubmit(data: LoginFormValues) {
-        await login(data.email, data.password)
+        await login(data.username, data.password)
     }
 
     return (
         <StyledFormContainer onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={2.5}>
                 <TextField
-                    label="E-mail"
-                    placeholder="seu@email.com"
+                    label="Username"
+                    placeholder="seu_username"
                     variant="outlined"
                     fullWidth
-                    {...register("email")}
+                    {...register("username")}
                 />
 
                 <TextField
