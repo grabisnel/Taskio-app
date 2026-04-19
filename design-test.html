@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Taskio — Entrar</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@500,700,800&display=swap" rel="stylesheet">
+
+  <style>
+    :root, [data-theme="light"] {
+      --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
+      --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
+      --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+      --text-lg:   clamp(1.125rem, 1rem    + 0.75vw, 1.5rem);
+      --text-xl:   clamp(1.5rem,   1.2rem  + 1.25vw, 2.25rem);
+      --text-2xl:  clamp(2.25rem,  1.5rem  + 2.5vw,  4rem);
+
+      --space-1:  0.25rem;
+      --space-2:  0.5rem;
+      --space-3:  0.75rem;
+      --space-4:  1rem;
+      --space-5:  1.25rem;
+      --space-6:  1.5rem;
+      --space-8:  2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+
+      --color-bg:              #f5f2ec;
+      --color-surface:         #faf8f4;
+      --color-surface-2:       #eeebe4;
+      --color-surface-offset:  #e5e1d9;
+      --color-surface-dynamic: #dcd7ce;
+      --color-divider:         #cec9bf;
+      --color-border:          #c4bfb4;
+
+      --color-text:        #1a1612;
+      --color-text-muted:  #645d54;
+      --color-text-faint:  #9b9389;
+      --color-text-inverse:#faf8f4;
+
+      --color-primary:           #7c4fa0;
+      --color-primary-hover:     #6a3f8a;
+      --color-primary-active:    #552f72;
+      --color-primary-highlight: #eddff7;
+      --color-primary-subtle:    #f7f0fc;
+
+      --radius-sm:   0.375rem;
+      --radius-md:   0.625rem;
+      --radius-lg:   0.875rem;
+      --radius-xl:   1.25rem;
+      --radius-2xl:  2rem;
+      --radius-full: 9999px;
+
+      --shadow-sm: 0 1px 3px rgba(26,22,18,0.07);
+      --shadow-md: 0 8px 28px rgba(26,22,18,0.09);
+      --shadow-lg: 0 24px 56px rgba(26,22,18,0.13);
+
+      --font-display: 'Cabinet Grotesk', sans-serif;
+      --font-body:    'Satoshi', sans-serif;
+    }
+
+    [data-theme="dark"] {
+      --color-bg:              #111019;
+      --color-surface:         #19172a;
+      --color-surface-2:       #221f35;
+      --color-surface-offset:  #2c2840;
+      --color-surface-dynamic: #373349;
+      --color-divider:         #3e3a52;
+      --color-border:          #4e4a62;
+
+      --color-text:        #ede8f6;
+      --color-text-muted:  #afa8c2;
+      --color-text-faint:  #7a7290;
+      --color-text-inverse:#14111f;
+
+      --color-primary:           #bb88e0;
+      --color-primary-hover:     #ca9fe9;
+      --color-primary-active:    #d8b5ef;
+      --color-primary-highlight: #3a2a4e;
+      --color-primary-subtle:    #231a30;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+      --shadow-md: 0 8px 28px rgba(0,0,0,0.4);
+      --shadow-lg: 0 24px 56px rgba(0,0,0,0.5);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: 1.6;
+      background: var(--color-bg);
+      color: var(--color-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Grain */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      mix-blend-mode: screen;
+      opacity: 0.045;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 960px;
+      padding: var(--space-8) var(--space-4);
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: var(--space-12);
+      align-items: center;
+    }
+
+    /* Bloco esquerdo: logo + copy (enchancer) */
+    .left-block {
+      display: grid;
+      gap: var(--space-5);
+    }
+
+    .wordmark {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: var(--text-lg);
+      letter-spacing: -0.02em;
+    }
+    .wordmark span {
+      color: var(--color-primary);
+    }
+
+    .enhancer-heading {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      max-width: 12ch;
+    }
+
+    .enhancer-heading em {
+      font-style: normal;
+      color: var(--color-primary);
+    }
+
+    .enhancer-body {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      max-width: 34ch;
+    }
+
+    .enhancer-footnote {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+    }
+
+    /* Card de login à direita */
+    .login-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-6);
+      border: 1px solid rgba(175,168,194,0.35);
+      box-shadow: var(--shadow-sm);
+      display: grid;
+      gap: var(--space-5);
+    }
+
+    .login-header {
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .login-title {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .login-subtitle {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      max-width: 30ch;
+    }
+
+    .field-group {
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .field {
+      display: grid;
+      gap: var(--space-1);
+    }
+
+    .field-label {
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+      color: var(--color-text-faint);
+    }
+
+    .field-input {
+      min-height: 48px;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface-2);
+      padding: 0 var(--space-4);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .field-input::placeholder {
+      color: var(--color-text-faint);
+    }
+
+    .field-input:focus {
+      border-color: var(--color-primary);
+      background: var(--color-surface-offset);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary) 22%, transparent);
+    }
+
+    .field-inline {
+      display: flex;
+      justify-content: flex-end;
+      font-size: var(--text-xs);
+    }
+
+    .link {
+      color: var(--color-text-muted);
+      text-decoration: none;
+    }
+    .link:hover {
+      color: var(--color-text);
+    }
+
+    .btn-primary {
+      width: 100%;
+      min-height: 48px;
+      border-radius: var(--radius-full);
+      border: none;
+      background: var(--color-primary);
+      color: var(--color-text-inverse);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: background 160ms ease, box-shadow 160ms ease, transform 80ms ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:active {
+      background: var(--color-primary-active);
+      transform: translateY(1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .login-footer {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .login-footer a {
+      color: var(--color-text-muted);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .login-footer a:hover {
+      color: var(--color-text);
+    }
+
+    @media (max-width: 768px) {
+      .page {
+        padding: var(--space-8) var(--space-4);
+      }
+
+      .shell {
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
+      }
+
+      .enhancer-heading {
+        font-size: var(--text-lg);
+        max-width: 16ch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="shell">
+      <!-- Esquerda: logo + copy / slogan -->
+      <section class="left-block" aria-hidden="false">
+        <div class="wordmark">
+          taskio<span>.</span>
+        </div>
+        <h1 class="enhancer-heading">
+          Menos <em>promessa</em>.<br>Mais tarefa feita.
+        </h1>
+        <p class="enhancer-body">
+          Taskio é o app de tarefas que não tenta organizar a sua vida inteira.
+          Ele só cuida do que você decidiu fazer hoje — e cobra isso de você.
+        </p>
+        <p class="enhancer-footnote">
+          Sem feed, sem badges vazios, sem check-in diário artificial. Só o que você se comprometeu a cumprir.
+        </p>
+      </section>
+
+      <!-- Direita: login -->
+      <section class="login-card" aria-label="Entrar no Taskio">
+        <div class="login-header">
+          <h2 class="login-title">Entrar</h2>
+          <p class="login-subtitle">
+            Acessa suas tarefas e continua de onde parou. Sem frufru, só o que precisa ser feito.
+          </p>
+        </div>
+
+        <form class="field-group">
+          <div class="field">
+            <label class="field-label" for="email">Email</label>
+            <input
+              class="field-input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="voce@exemplo.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="password">Senha</label>
+            <input
+              class="field-input"
+              type="password"
+              id="password"
+              name="password"
+              placeholder="••••••••"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+
+          <div class="field-inline">
+            <a href="#" class="link">Esqueci minha senha</a>
+          </div>
+
+          <button class="btn-primary" type="submit">
+            Continuar
+          </button>
+        </form>
+
+        <div class="login-footer">
+          <span>Primeira vez aqui?</span>
+          <a href="#">Criar conta</a>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
