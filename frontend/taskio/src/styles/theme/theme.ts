@@ -1,6 +1,7 @@
 
 import { createTheme } from '@mui/material/styles';
-import { colorTokens } from './tokens/tokens';
+import { colorTokens } from '../tokens/tokens';
+
 
 
 const theme = createTheme({

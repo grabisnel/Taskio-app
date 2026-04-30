@@ -2,9 +2,7 @@
 
 import { Box, Card, useTheme } from "@mui/material"
 
-export const LoginFormView = () => {
-
-    console.log('Passou')
+export const TaskView = () => {
 
     const theme = useTheme()
 
@@ -22,7 +20,7 @@ export const LoginFormView = () => {
             sx={{
                 minWidth: '200px',
                 minHeight: '200px',
-                backgroundColor: theme.palette.primary.main
+                backgroundColor: theme.palette.secondary.main
             }}
             >
 
@@ -32,4 +30,4 @@ export const LoginFormView = () => {
 
 }
 
-export default LoginFormView
+export default TaskView
